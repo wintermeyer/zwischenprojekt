@@ -70,4 +70,124 @@ defmodule MehrSchulferien.CalendarTest do
       assert %Ecto.Changeset{} = Calendar.change_vacation_period(vacation_period)
     end
   end
+
+  describe "years" do
+    alias MehrSchulferien.Calendar.Year
+
+    @valid_attrs %{value: "some value"}
+    @update_attrs %{value: "some updated value"}
+    @invalid_attrs %{value: nil}
+
+    def year_fixture(attrs \\ %{}) do
+      {:ok, year} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Calendar.create_year()
+
+      year
+    end
+
+    test "list_years/0 returns all years" do
+      year = year_fixture()
+      assert Calendar.list_years() == [year]
+    end
+
+    test "get_year!/1 returns the year with given id" do
+      year = year_fixture()
+      assert Calendar.get_year!(year.id) == year
+    end
+
+    test "create_year/1 with valid data creates a year" do
+      assert {:ok, %Year{} = year} = Calendar.create_year(@valid_attrs)
+      assert year.value == "some value"
+    end
+
+    test "create_year/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Calendar.create_year(@invalid_attrs)
+    end
+
+    test "update_year/2 with valid data updates the year" do
+      year = year_fixture()
+      assert {:ok, year} = Calendar.update_year(year, @update_attrs)
+      assert %Year{} = year
+      assert year.value == "some updated value"
+    end
+
+    test "update_year/2 with invalid data returns error changeset" do
+      year = year_fixture()
+      assert {:error, %Ecto.Changeset{}} = Calendar.update_year(year, @invalid_attrs)
+      assert year == Calendar.get_year!(year.id)
+    end
+
+    test "delete_year/1 deletes the year" do
+      year = year_fixture()
+      assert {:ok, %Year{}} = Calendar.delete_year(year)
+      assert_raise Ecto.NoResultsError, fn -> Calendar.get_year!(year.id) end
+    end
+
+    test "change_year/1 returns a year changeset" do
+      year = year_fixture()
+      assert %Ecto.Changeset{} = Calendar.change_year(year)
+    end
+  end
+
+  describe "months" do
+    alias MehrSchulferien.Calendar.Month
+
+    @valid_attrs %{value: 42}
+    @update_attrs %{value: 43}
+    @invalid_attrs %{value: nil}
+
+    def month_fixture(attrs \\ %{}) do
+      {:ok, month} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Calendar.create_month()
+
+      month
+    end
+
+    test "list_months/0 returns all months" do
+      month = month_fixture()
+      assert Calendar.list_months() == [month]
+    end
+
+    test "get_month!/1 returns the month with given id" do
+      month = month_fixture()
+      assert Calendar.get_month!(month.id) == month
+    end
+
+    test "create_month/1 with valid data creates a month" do
+      assert {:ok, %Month{} = month} = Calendar.create_month(@valid_attrs)
+      assert month.value == 42
+    end
+
+    test "create_month/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Calendar.create_month(@invalid_attrs)
+    end
+
+    test "update_month/2 with valid data updates the month" do
+      month = month_fixture()
+      assert {:ok, month} = Calendar.update_month(month, @update_attrs)
+      assert %Month{} = month
+      assert month.value == 43
+    end
+
+    test "update_month/2 with invalid data returns error changeset" do
+      month = month_fixture()
+      assert {:error, %Ecto.Changeset{}} = Calendar.update_month(month, @invalid_attrs)
+      assert month == Calendar.get_month!(month.id)
+    end
+
+    test "delete_month/1 deletes the month" do
+      month = month_fixture()
+      assert {:ok, %Month{}} = Calendar.delete_month(month)
+      assert_raise Ecto.NoResultsError, fn -> Calendar.get_month!(month.id) end
+    end
+
+    test "change_month/1 returns a month changeset" do
+      month = month_fixture()
+      assert %Ecto.Changeset{} = Calendar.change_month(month)
+    end
+  end
 end

@@ -11,6 +11,7 @@
 # and so on) as they will fail if something goes wrong.
 
 alias MehrSchulferien.Location
+alias MehrSchulferien.Calendar
 
 # Create Germany as a country
 #
@@ -34,3 +35,12 @@ alias MehrSchulferien.Location
 {:ok, sachsenanhalt} = Location.create_federal_state(%{name: "Sachsen-Anhalt", slug: "sachsen-anhalt", country_id: germany.id})
 {:ok, schleswigholstein} = Location.create_federal_state(%{name: "Schleswig-Holstein", slug: "schleswig-holstein", country_id: germany.id})
 {:ok, thueringen} = Location.create_federal_state(%{name: "Thüringen", slug: "thueringen", country_id: germany.id})
+
+# Kalender
+#
+Enum.each (2016..2020), fn year ->
+  {:ok, year} = Calendar.create_year(%{value: year})
+  Enum.each (1..12), fn month ->
+    {:ok, month} = Calendar.create_month(%{value: month, year_id: year.id})
+  end
+end
