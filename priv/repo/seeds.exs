@@ -37,33 +37,6 @@ import Ecto.Query
 {:ok, schleswigholstein} = Location.create_federal_state(%{name: "Schleswig-Holstein", slug: "schleswig-holstein", country_id: germany.id})
 {:ok, thueringen} = Location.create_federal_state(%{name: "Thüringen", slug: "thueringen", country_id: germany.id})
 
-# Kalender
-#
-# Enum.each (2016..2020), fn year_number ->
-#   case Calendar.create_year(%{value: year_number}) do
-#     {:ok, year} ->
-#       {:ok, first_day} = Date.from_erl({year.value, 1, 1})
-#       {:ok, last_day} = Date.from_erl({year.value, 12, 31})
-#       Enum.each (first_day..last_day), fn day ->
-#         case day.day do
-#           1 -> {:ok, month} = Calendar.create_month(%{value: day.month, year_id: year.id})
-#           _ ->
-#         end
-#         weekday_de = case Date.day_of_week(day) do
-#           1 -> "Montag"
-#           2 -> "Dienstag"
-#           3 -> "Mittwoch"
-#           4 -> "Donnerstag"
-#           5 -> "Freitag"
-#           6 -> "Samstag"
-#           7 -> "Sonntag"
-#           _ ->
-#         end
-#         Calendar.create_day(%{value: day, day_of_month: day.day, year_id: year.id, month_id: month.id, weekday: Date.day_of_week(day), weekday_de: weekday_de})
-#       end
-#     {_, _} ->
-#   end
-
 Enum.each (2016..2020), fn year_number ->
   case Calendar.create_year(%{value: year_number}) do
     {:ok, year} ->
