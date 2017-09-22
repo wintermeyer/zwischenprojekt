@@ -1,0 +1,5 @@
+<h2>Edit Vacation period</h2>
+
+<%= render "form.html", Map.put(assigns, :action, vacation_period_path(@conn, :update, @vacation_period)) %>
+
+<span><%= link "Back", to: vacation_period_path(@conn, :index) %></span>

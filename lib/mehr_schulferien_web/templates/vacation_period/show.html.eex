@@ -1,0 +1,33 @@
+<h2>Show Vacation period</h2>
+
+<ul>
+
+  <li>
+    <strong>Starts on:</strong>
+    <%= @vacation_period.starts_on %>
+  </li>
+
+  <li>
+    <strong>Ends on:</strong>
+    <%= @vacation_period.ends_on %>
+  </li>
+
+  <li>
+    <strong>Bank holiday:</strong>
+    <%= @vacation_period.bank_holiday %>
+  </li>
+
+  <li>
+    <strong>Weekend:</strong>
+    <%= @vacation_period.weekend %>
+  </li>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @vacation_period.name %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: vacation_period_path(@conn, :edit, @vacation_period) %></span>
+<span><%= link "Back", to: vacation_period_path(@conn, :index) %></span>

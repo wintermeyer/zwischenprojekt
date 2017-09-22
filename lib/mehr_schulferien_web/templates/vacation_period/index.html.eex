@@ -1,0 +1,34 @@
+<h2>Listing Vacation periods</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Starts on</th>
+      <th>Ends on</th>
+      <th>Bank holiday</th>
+      <th>Weekend</th>
+      <th>Name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for vacation_period <- @vacation_periods do %>
+    <tr>
+      <td><%= vacation_period.starts_on %></td>
+      <td><%= vacation_period.ends_on %></td>
+      <td><%= vacation_period.bank_holiday %></td>
+      <td><%= vacation_period.weekend %></td>
+      <td><%= vacation_period.name %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: vacation_period_path(@conn, :show, vacation_period), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: vacation_period_path(@conn, :edit, vacation_period), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: vacation_period_path(@conn, :delete, vacation_period), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Vacation period", to: vacation_period_path(@conn, :new) %></span>
