@@ -1,0 +1,28 @@
+<h2>Show Day</h2>
+
+<ul>
+
+  <li>
+    <strong>Value:</strong>
+    <%= @day.value %>
+  </li>
+
+  <li>
+    <strong>Weekday:</strong>
+    <%= @day.weekday %>
+  </li>
+
+  <li>
+    <strong>Weekday de:</strong>
+    <%= @day.weekday_de %>
+  </li>
+
+  <li>
+    <strong>Day of the year:</strong>
+    <%= @day.day_of_the_year %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: day_path(@conn, :edit, @day) %></span>
+<span><%= link "Back", to: day_path(@conn, :index) %></span>

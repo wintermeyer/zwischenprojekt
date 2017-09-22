@@ -17,13 +17,19 @@ defmodule MehrSchulferienWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    resources "/countries", CountryController
-    resources "/federal_states", FederalStateController
-    resources "/cities", CityController
-    resources "/schools", SchoolController
-    resources "/vacation_periods", VacationPeriodController
-    resources "/years", YearController
-    resources "/months", MonthController
+    resources "/countries", CountryController #, only: [:index, :show]
+    resources "/federal_states", FederalStateController #, only: [:index, :show]
+    resources "/cities", CityController #, only: [:index, :show]
+    resources "/schools", SchoolController #, only: [:index, :show]
+    resources "/vacation_periods", VacationPeriodController #, only: [:index, :show]
+    resources "/years", YearController #, only: [:index, :show]
+    resources "/months", MonthController #, only: [:index, :show]
+    resources "/days", DayController
+
+    # resources "/federal_states", FederalStateController, only: [:index, :show] do
+    #   resources "/years", YearController, only: [:index, :show]
+    # end
+
   end
 
   # Other scopes may use custom stacks.

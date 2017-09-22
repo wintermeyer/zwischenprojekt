@@ -12,6 +12,7 @@
 
 alias MehrSchulferien.Location
 alias MehrSchulferien.Calendar
+import Ecto.Query
 
 # Create Germany as a country
 #
@@ -38,9 +39,59 @@ alias MehrSchulferien.Calendar
 
 # Kalender
 #
-Enum.each (2016..2020), fn year ->
-  {:ok, year} = Calendar.create_year(%{value: year})
-  Enum.each (1..12), fn month ->
-    {:ok, month} = Calendar.create_month(%{value: month, year_id: year.id})
+# Enum.each (2016..2020), fn year_number ->
+#   case Calendar.create_year(%{value: year_number}) do
+#     {:ok, year} ->
+#       {:ok, first_day} = Date.from_erl({year.value, 1, 1})
+#       {:ok, last_day} = Date.from_erl({year.value, 12, 31})
+#       Enum.each (first_day..last_day), fn day ->
+#         case day.day do
+#           1 -> {:ok, month} = Calendar.create_month(%{value: day.month, year_id: year.id})
+#           _ ->
+#         end
+#         weekday_de = case Date.day_of_week(day) do
+#           1 -> "Montag"
+#           2 -> "Dienstag"
+#           3 -> "Mittwoch"
+#           4 -> "Donnerstag"
+#           5 -> "Freitag"
+#           6 -> "Samstag"
+#           7 -> "Sonntag"
+#           _ ->
+#         end
+#         Calendar.create_day(%{value: day, day_of_month: day.day, year_id: year.id, month_id: month.id, weekday: Date.day_of_week(day), weekday_de: weekday_de})
+#       end
+#     {_, _} ->
+#   end
+
+Enum.each (2016..2020), fn year_number ->
+  case Calendar.create_year(%{value: year_number}) do
+    {:ok, year} ->
+      {:ok, first_day} = Date.from_erl({year_number, 1, 1})
+      Enum.each (0..366), fn counter ->
+        day = Date.add(first_day, counter)
+        case day.year do
+          ^year_number -> weekday_de = case Date.day_of_week(day) do
+                          1 -> "Montag"
+                          2 -> "Dienstag"
+                          3 -> "Mittwoch"
+                          4 -> "Donnerstag"
+                          5 -> "Freitag"
+                          6 -> "Samstag"
+                          7 -> "Sonntag"
+                          _ -> nil
+                        end
+
+                        case day.day do
+                          1 -> {:ok, month} = Calendar.create_month(%{value: day.month, year_id: year.id})
+                          _ -> query = from m in Calendar.Month, where: m.value == ^day.month, where: m.year_id == ^year.id
+                               month = MehrSchulferien.Repo.one(query)
+                        end
+
+                        Calendar.create_day(%{value: day, day_of_month: day.day, year_id: year.id, month_id: month.id, weekday: Date.day_of_week(day), weekday_de: weekday_de, day_of_the_year: counter + 1 })
+          _ -> nil
+        end
+      _ -> nil
+    end
   end
 end

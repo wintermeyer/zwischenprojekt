@@ -190,4 +190,70 @@ defmodule MehrSchulferien.CalendarTest do
       assert %Ecto.Changeset{} = Calendar.change_month(month)
     end
   end
+
+  describe "days" do
+    alias MehrSchulferien.Calendar.Day
+
+    @valid_attrs %{day_of_the_year: 42, value: 42, weekday: 42, weekday_de: "some weekday_de"}
+    @update_attrs %{day_of_the_year: 43, value: 43, weekday: 43, weekday_de: "some updated weekday_de"}
+    @invalid_attrs %{day_of_the_year: nil, value: nil, weekday: nil, weekday_de: nil}
+
+    def day_fixture(attrs \\ %{}) do
+      {:ok, day} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Calendar.create_day()
+
+      day
+    end
+
+    test "list_days/0 returns all days" do
+      day = day_fixture()
+      assert Calendar.list_days() == [day]
+    end
+
+    test "get_day!/1 returns the day with given id" do
+      day = day_fixture()
+      assert Calendar.get_day!(day.id) == day
+    end
+
+    test "create_day/1 with valid data creates a day" do
+      assert {:ok, %Day{} = day} = Calendar.create_day(@valid_attrs)
+      assert day.day_of_the_year == 42
+      assert day.value == 42
+      assert day.weekday == 42
+      assert day.weekday_de == "some weekday_de"
+    end
+
+    test "create_day/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Calendar.create_day(@invalid_attrs)
+    end
+
+    test "update_day/2 with valid data updates the day" do
+      day = day_fixture()
+      assert {:ok, day} = Calendar.update_day(day, @update_attrs)
+      assert %Day{} = day
+      assert day.day_of_the_year == 43
+      assert day.value == 43
+      assert day.weekday == 43
+      assert day.weekday_de == "some updated weekday_de"
+    end
+
+    test "update_day/2 with invalid data returns error changeset" do
+      day = day_fixture()
+      assert {:error, %Ecto.Changeset{}} = Calendar.update_day(day, @invalid_attrs)
+      assert day == Calendar.get_day!(day.id)
+    end
+
+    test "delete_day/1 deletes the day" do
+      day = day_fixture()
+      assert {:ok, %Day{}} = Calendar.delete_day(day)
+      assert_raise Ecto.NoResultsError, fn -> Calendar.get_day!(day.id) end
+    end
+
+    test "change_day/1 returns a day changeset" do
+      day = day_fixture()
+      assert %Ecto.Changeset{} = Calendar.change_day(day)
+    end
+  end
 end

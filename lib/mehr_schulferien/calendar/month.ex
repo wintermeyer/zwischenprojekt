@@ -6,7 +6,7 @@ defmodule MehrSchulferien.Calendar.Month do
 
   schema "months" do
     field :value, :integer
-    field :year_id, :id
+    belongs_to :year, MehrSchulferien.Calendar.Year
 
     timestamps()
   end
@@ -16,5 +16,6 @@ defmodule MehrSchulferien.Calendar.Month do
     month
     |> cast(attrs, [:value, :year_id])
     |> validate_required([:value, :year_id])
+    |> assoc_constraint(:year)
   end
 end
